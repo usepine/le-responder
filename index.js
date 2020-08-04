@@ -3,6 +3,8 @@ var http = require('http');
 const CONTENT = process.env.CONTENT
 if (!CONTENT) throw new Error('CONTENT env var not specified');
 
+const CONTENT_TYPE = process.env.CONTENT_TYPE || 'text/plain'
+
 const TOKEN = process.env.TOKEN
 const FILENAME = process.env.FILENAME  // .well-known/acme-challenge/example_token
 
@@ -18,6 +20,7 @@ http.createServer(function (req, res) {
   }
   else if ((FILENAME && req.url == `/${FILENAME}`) || req.url == `/.well-known/acme-challenge/${TOKEN}`)
   {
+    res.writeHead(200, { 'Content-Type': CONTENT_TYPE });
     res.write(CONTENT);
   }
   else {
