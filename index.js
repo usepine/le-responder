@@ -12,7 +12,11 @@ const PORT = process.env.PORT || 8080
 
 http.createServer(function (req, res) {
 
-  if ((FILENAME && req.url == `/${FILENAME}`) || req.url == `/.well-known/acme-challenge/${TOKEN}`)
+  if (req.url == "/health")
+  {
+    res.write("OK");
+  }
+  else if ((FILENAME && req.url == `/${FILENAME}`) || req.url == `/.well-known/acme-challenge/${TOKEN}`)
   {
     res.write(CONTENT);
   }
