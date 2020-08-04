@@ -4,12 +4,15 @@ const CONTENT = process.env.CONTENT
 if (!CONTENT) throw new Error('CONTENT env var not specified');
 
 const TOKEN = process.env.TOKEN
-if (!TOKEN) throw new Error('TOKEN env var not specified');
+const FILENAME = process.env.FILENAME  // .well-known/acme-challenge/example_token
+
+if (!TOKEN && !FILENAME) throw new Error('TOKEN or FILENAME env var must be specified');
 
 const PORT = process.env.PORT || 8080
 
 http.createServer(function (req, res) {
-  if (req.url == `/.well-known/acme-challenge/${TOKEN}`)
+
+  if ((FILENAME && req.url == `/${FILENAME}`) || req.url == `/.well-known/acme-challenge/${TOKEN}`)
   {
     res.write(CONTENT);
   }
